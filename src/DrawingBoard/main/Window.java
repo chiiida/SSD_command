@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.util.Random;
 
 import DrawingBoard.Command.AddOvalCommand;
+import DrawingBoard.Command.AddRectCommand;
 import DrawingBoard.Command.Invoker;
 import DrawingBoard.objects.*;
 
@@ -121,7 +122,8 @@ public class Window extends JFrame {
 		int w = Integer.parseInt(fieldWidth.getText());
 		int h = Integer.parseInt(fieldHeight.getText());
 		/* A good starting point */
-		drawPanel.addGObject(new Rect(x, y, w, h, randomColor()));
+		invoker.setCommand(new AddRectCommand(drawPanel, x, y, w, h, randomColor()));
+		invoker.executeCommand();
 	}
 
 	private void addOval() {
