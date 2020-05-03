@@ -4,9 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
+
+import DrawingBoard.Command.AddOvalCommand;
+import DrawingBoard.Command.Invoker;
 import DrawingBoard.objects.*;
 
 public class Window extends JFrame {
+
+	private Invoker invoker = new Invoker();
 
 	private JPanel topPanel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
@@ -22,6 +27,9 @@ public class Window extends JFrame {
 	private JButton groupAllButton = new JButton("Group All");
 	private JButton deleteButton = new JButton("Delete");
 	private JButton clearButton = new JButton("Clear All");
+
+	private JButton redoButton = new JButton("Redo");
+	private JButton undoButton = new JButton("Undo");
 
 	public Window() {
 		setAlwaysOnTop(true);
@@ -53,6 +61,8 @@ public class Window extends JFrame {
 		bottomPanel.add(groupAllButton);
 		bottomPanel.add(deleteButton);
 		bottomPanel.add(clearButton);
+		bottomPanel.add(redoButton);
+		bottomPanel.add(undoButton);
 
 		initButtons();
 	}
@@ -93,6 +103,16 @@ public class Window extends JFrame {
 				drawPanel.clear();
 			}
 		});
+		redoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { invoker.redoCommand(); }
+		});
+		undoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { invoker.undoCommand(); }
+		});
 	}
 
 	private void addRectangle() {
@@ -110,7 +130,8 @@ public class Window extends JFrame {
 		int w = Integer.parseInt(fieldWidth.getText());
 		int h = Integer.parseInt(fieldHeight.getText());
 		/* A good starting point */
-		drawPanel.addGObject(new Oval(x, y, w, h, randomColor()));
+		invoker.setCommand(new AddOvalCommand(drawPanel, x, y, w, h, randomColor()));
+		invoker.executeCommand();
 	}
 
 	private Color randomColor() {

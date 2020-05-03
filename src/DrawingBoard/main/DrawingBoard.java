@@ -49,6 +49,11 @@ public class DrawingBoard extends JPanel {
 		gObjects.remove(target);
 		repaint();
 	}
+
+	public void deleteObj(GObject obj) {
+		gObjects.remove(obj);
+		repaint();
+	}
 	
 	public void clear() {
 		gObjects.clear();
