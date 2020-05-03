@@ -44,11 +44,7 @@ public class DrawingBoard extends JPanel {
 		CompositeGObject groupObject = new CompositeGObject();
 
 		for (GObject child : gObjects) {
-			if (child instanceof CompositeGObject) {
-				groupObject = (CompositeGObject) child;
-			} else {
-				groupObject.add(child);
-			}
+			groupObject.add(child);
 		}
 
 		groupObject.recalculateRegion();

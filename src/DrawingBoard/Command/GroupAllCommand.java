@@ -28,9 +28,6 @@ public class GroupAllCommand implements UndoableCommand {
     public void undo() {
         gObjects.clear();
         for (GObject child : gObjectsCopy) {
-            if (child instanceof CompositeGObject) {
-                ((CompositeGObject) child).recalculateRegion();
-            }
             drawingBoard.addGObject(child);
         }
     }
