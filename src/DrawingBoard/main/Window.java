@@ -16,7 +16,7 @@ public class Window extends JFrame {
 
 	private JPanel topPanel = new JPanel();
 	private JPanel bottomPanel = new JPanel();
-	private DrawingBoard drawPanel = new DrawingBoard();
+	private DrawingBoard drawPanel = new DrawingBoard(invoker);
 
 	private JTextField fieldX = new InputField("400");
 	private JTextField fieldY = new InputField("300");
@@ -87,7 +87,7 @@ public class Window extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				drawPanel.groupAll();
+				drawPanel.groupAllCommand();
 			}
 		});
 		deleteButton.addActionListener(new ActionListener() {

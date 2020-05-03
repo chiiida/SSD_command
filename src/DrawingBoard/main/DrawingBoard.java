@@ -5,17 +5,24 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+
+import DrawingBoard.Command.ClearAllCommand;
+import DrawingBoard.Command.DeleteSelectedCommand;
+import DrawingBoard.Command.GroupAllCommand;
+import DrawingBoard.Command.Invoker;
 import DrawingBoard.objects.*;
 
 public class DrawingBoard extends JPanel {
 
+	private Invoker invoker;
 	private MouseAdapter mouseAdapter; 
 	private List<GObject> gObjects;
 	private GObject target;
-	
+
 	private int gridSize = 10;
 	
-	public DrawingBoard() {
+	public DrawingBoard(Invoker invoker) {
+		this.invoker = invoker;
 		gObjects = new ArrayList<GObject>();
 		mouseAdapter = new MAdapter();
 		addMouseListener(mouseAdapter);
@@ -26,6 +33,11 @@ public class DrawingBoard extends JPanel {
 	public void addGObject(GObject gObject) {
 		gObjects.add(gObject);
 		repaint();
+	}
+
+	public void groupAllCommand() {
+		invoker.setCommand(new GroupAllCommand(this, gObjects));
+		invoker.executeCommand();
 	}
 	
 	public void groupAll() {
@@ -46,8 +58,8 @@ public class DrawingBoard extends JPanel {
 	}
 
 	public void deleteSelected() {
-		gObjects.remove(target);
-		repaint();
+		invoker.setCommand(new DeleteSelectedCommand(this, target));
+		invoker.executeCommand();
 	}
 
 	public void deleteObj(GObject obj) {
@@ -56,8 +68,8 @@ public class DrawingBoard extends JPanel {
 	}
 	
 	public void clear() {
-		gObjects.clear();
-		repaint();;
+		invoker.setCommand(new ClearAllCommand(this, gObjects));
+		invoker.executeCommand();
 	}
 	
 	@Override
